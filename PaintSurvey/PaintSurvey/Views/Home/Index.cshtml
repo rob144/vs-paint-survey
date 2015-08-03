@@ -1,0 +1,622 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Home Page";
+}
+
+<!doctype html>
+<html>
+<head>
+    <title>Paint Survey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="/static/main.css" />
+    <link rel="stylesheet" type="text/css" href="/static/caro.css" />
+    <script src="/static/lib/jquery-1.11.2.min.js"></script>
+    <script src="/static/caro.js"></script>
+</head>
+<body>
+    <h1 id='app-title'>Paint Survey</h1>
+    <div id='carousel' class='owl-carousel'></div>
+
+    <div id='caro-pages'>
+        <div id='page-specification' class='caro-page'>
+            <div class='pageContentOuter'>
+                <div class='pageContent'>
+
+                    <form id='form-edit-spec'>
+                        <div class='input-group'>
+                            <h2 class='group'>Edit Specification</h2>
+                            <button type='button' class='btn-add-spec-item'></button>
+                            <input type='text' id='spec-surface-type' value='surface type' disabled="disabled" />
+                            <div id='spec-list'>
+                                <div class='input-block hidden'>
+                                    <input type='hidden' class='spec-item-key' />
+                                    <input type='hidden' class='spec-item-order' />
+                                    <div class='form-row group'>
+                                        <label>Item Name</label>
+                                        <input class='spec-item-name' type='text' placeholder='item name' />
+                                        <button type='button' class='btn-remove-row'></button>
+                                    </div>
+                                    <table class='spec-item-rates'>
+                                        <tr>
+                                            <th>PR1</th>
+                                            <th>PR2</th>
+                                            <th>Rate</th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input class='spec-item-pr1 decimal' type='number' step='any' min='0' />
+                                            </td>
+                                            <td>
+                                                <input class='spec-item-pr2 decimal' type='number' step='any' min='0' />
+                                            </td>
+                                            <td>
+                                                <input class='spec-item-rate decimal' type='number' step='any' min='0' />
+                                            </td>
+                                        </tr>
+                                        <button type='button' class='btn-reorder-item-up'></button>
+                                        <button type='button' class='btn-reorder-item-down'></button>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='page-bottom-buttons'>
+                            <button type='button' class='btn-save'>Save</button>
+                            <button type='button' class='btn-cancel'>Cancel</button>
+                        </div>
+                    </form>
+
+                    <form id='form-view-spec'>
+                        <h2>Specification</h2>
+                        <div class='form-row spec-item-block hidden'>
+                            <label class='spec-item-title'>Surface Type Title</label>
+                            <div class='dropdown' data-dropdown-id='select-paint-prod-rate'></div>
+                            <button type='button' class='btn-edit-spec'></button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div id='page-room-defaults' class='caro-page'>
+            <div class='pageContentOuter'>
+                <div class='pageContent'>
+                    <h2>Default Room Settings</h2>
+                    <form id='form-room-defaults'>
+                        <input id='default-room-key' type='hidden' />
+                        <div class='form-row'>
+                            <label>Room height</label>
+                            <input id='default-room-height' type='number' step='any' min='0' placeholder='height' class='decimal round-corners-input' />
+                        </div>
+                        <div class='form-row'>
+                            <label>Door width</label>
+                            <input id='default-door-width' type='number' step='any' min='0' placeholder='width' class='decimal round-corners-input' />
+                        </div>
+                        <div class='form-row'>
+                            <label>Door height</label>
+                            <input id='default-door-height' type='number' step='any' min='0' placeholder='height' class='decimal round-corners-input' />
+                        </div>
+                        <div class='form-row'>
+                            <label>Window width</label>
+                            <input id='default-window-width' type='number' step='any' min='0' placeholder='width' class='decimal round-corners-input' />
+                        </div>
+                        <div class='form-row'>
+                            <label>Window height</label>
+                            <input id='default-window-height' type='number' step='any' min='0' placeholder='height' class='decimal round-corners-input' />
+                        </div>
+                        <div class='form-row'>
+                            <label>Radiator width</label>
+                            <input id='default-radiator-width' type='number' step='any' min='0' placeholder='width' class='decimal round-corners-input' />
+                        </div>
+                        <div class='form-row'>
+                            <label>Radiator height</label>
+                            <input id='default-radiator-height' type='number' step='any' min='0' placeholder='height' class='decimal round-corners-input' />
+                        </div>
+                        <div class='page-bottom-buttons'>
+                            <button type='button' class='btn-save'>Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id='page-left-1' class='caro-page'>
+            <div class='pageContentOuter'>
+                <div class='pageContent'>
+                    <h2>Projects</h2>
+                    <div class='form-row'>
+                        <div class='group-label'>Create New</div>
+                        <input id='new-project-title' type='text' placeholder='Project Title' />
+                    </div>
+                    <input id='btn-create-project' type='button' value='Create' />
+                    <div class='group-label'>Existing Projects</div>
+                    <ul id='projects-list'>
+                        <li class='project-item group hidden'>
+                            <input type='hidden' class='project-key' />
+                            <input type='text' class='project-title' disabled="disabled" value='Project Title' />
+                            <div class='project-date-created'>Date Created</div>
+                            <div class='project-controls group hidden'>
+                                <button class='btn-select-project' type='button'>Select</button>
+                                <button class='btn-edit-project' type='button'>Edit</button>
+                                <button class='btn-delete-project' type='button'>Delete</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id='page-project-summary' class='caro-page project-summary-template'>
+            <div class='pageContentOuter project-summary-page'>
+                <div class='pageContent'>
+                    <h2>Project Summary</h2>
+                    <div class='project-summary-info'>
+                        <div class='project-summary-top'>
+                            <div class='row'>
+                                <label>Total Rooms:</label>
+                                <span class='project-total-rooms'></span>
+                            </div>
+                            <div class='row'>
+                                <label>Total Hours:</label>
+                                <span class='project-total-hours'></span>
+                            </div>
+                            <div class='row'>
+                                <label>Total Value:</label>
+                                <span class='project-total-value'></span>
+                            </div>
+                        </div>
+                        <div class='project-room-list'></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='page-room-1' class='caro-page room-page-template'>
+            <div class='pageContentOuter room-page'>
+                <div class='pageContent'>
+
+                    <form class='room-form'>
+
+                        <div class='room-top-row'>
+                            <div class='room-title-heading room-top-row-left' data-room-number="1">
+                                <input name='room-title' type='text' placeholder='Room Name' class='room-title' />
+                            </div>
+                            <div class='room-top-row-right'>
+                                <table class='input-pill'>
+                                    <tr>
+                                        <td class='last-child'>
+                                            <input name='room-hours-adjust' class='room-hours-adjust decimal pos-neg' type='number' step='any' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <input type='hidden' class='room-key' />
+
+                        <div class='results'>RESULTS</div>
+
+                        <div class='group'>
+                            <table class='room-dimension-table'>
+                                <tr>
+                                    <td class='col1'>
+                                        <label class='control-label'>Height</label>
+                                    </td>
+                                    <td class='room-height-cell col2'>
+                                        <input name='room-height' class='room-height form-control decimal' type='number' step='any' min='0'>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class='col1'>
+                                        <label class='control-label'>Length</label>
+                                    </td>
+                                    <td class='room-length-cell col2'>
+                                        <input name='room-length' class='room-length form-control decimal' type='number' step='any' min='0'>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class='col1'>
+                                        <label class='control-label'>Width</label>
+                                    </td>
+                                    <td class='room-width-cell col2'>
+                                        <input name='room-width' class='room-width form-control decimal' type='number' step='any' min='0'>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div class='room-3d-image'>
+                                <img src='/static/room-3d-trans.png' />
+                            </div>
+                        </div>
+
+                        <div class='input-group baybreast-group'>
+
+                            <table class='baybreast-table'>
+                                <tr>
+                                    <td class='baybreast-label'>
+                                        <label class='control-label'>Bay/Breast</label>
+                                    </td>
+
+                                    <td>
+                                        <div class='input-block'>
+                                            <table class='input-pill'>
+                                                <tr>
+                                                    <td class='baybreast-width-cell'>
+                                                        <input name='baybreast-width' class='form-control baybreast-width decimal' type='number' step='any' />
+                                                    </td>
+
+                                                    <td class='baybreast-depth-cell last-child'>
+                                                        <input name='baybreast-depth' class='form-control baybreast-depth decimal pos-neg' type='number' step='any' min='0' />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <div class='button-box'></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                        <div class='input-group ceiling-adjust-group'>
+
+                            <div class='room-item-top-row'>
+                                <div class='group-label'>Ceiling Adjusts</div>
+                                <table class='input-pill'>
+                                    <tr>
+                                        <td class='last-child'>
+                                            <input name='ceiling-adjust-simple' class='ceiling-adjust-simple decimal pos-neg' type='number' step='any' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class='input-block'>
+
+                                <div class='left'>
+                                    <div class='dropdown' data-dropdown-id='ceiling-adjust-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='ceiling-adjust-qty' type='number' min='0' step='1' class='ceiling-adjust-qty integer' data-default-value='1' />
+                                            </td>
+
+                                            <td>
+                                                <input name='ceiling-adjust-dim1' class='ceiling-adjust-dim1 decimal pos-neg' type='number' step='any' tabindex="-1" />
+                                            </td>
+                                            <td class='last-child'>
+                                                <input name='ceiling-adjust-dim2' class='ceiling-adjust-dim2 decimal' type='number' min='0' step='any' tabindex="-1" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+
+                            </div>
+                        </div>
+
+                        <div class='input-group wall-adjust-group'>
+
+                            <div class='room-item-top-row'>
+                                <div class='group-label'>Wall Adjusts</div>
+                                <table class='input-pill'>
+                                    <tr>
+                                        <td class='last-child'>
+                                            <input name='wall-adjust-simple' type='number' step='any' class='wall-adjust-simple decimal pos-neg' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class='input-block'>
+
+                                <div class='left'>
+                                    <div class="dropdown" data-dropdown-id='wall-adjust-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='wall-adjust-qty' type='number' min='0' step='1' class='wall-adjust-qty integer' data-default-value='1' />
+                                            </td>
+
+                                            <td>
+                                                <input name='wall-adjust-dim1' class='wall-adjust-dim1 decimal pos-neg' type='number' step='any' placeholder='x' />
+                                            </td>
+                                            <td class='last-child'>
+                                                <input name='wall-adjust-dim2' class='wall-adjust-dim2 decimal' type='number' min='0' step='any' placeholder='y' />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+
+                            </div>
+                        </div>
+
+                        <div class='input-group doors-group'>
+
+                            <div class='group-label'>Doors & Frames</div>
+                            <div class='input-block group'>
+
+                                <div class='left'>
+                                    <div class="dropdown door-surface" data-dropdown-id='door-surface-paint-key'></div>
+                                    <div class='left dropdown door-frame' data-dropdown-id='door-frame-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='door-qty' class='door-qty form-control integer' type='number' step='1' min='0' data-default-value='1'>
+                                            </td>
+
+                                            <td class='default-value'>
+                                                <input name='door-width' class='door-width form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                            <td class='default-value last-child'>
+                                                <input name='door-height' class='door-height form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+                            </div>
+                        </div>
+
+                        <div class='input-group skirting-adjust-group'>
+
+                            <div class='room-item-top-row'>
+                                <div class='group-label'>Skirting Adjusts</div>
+                                <table class='input-pill'>
+                                    <tr>
+
+                                        <td class='last-child'>
+                                            <input name='skirting-adjust-simple' type='number' step='any' class='skirting-adjust-simple decimal pos-neg' />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class='input-block'>
+
+                                <div class='left'>
+                                    <div class='dropdown' data-dropdown-id='skirting-adjust-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='skirting-adjust-qty' type='number' min='0' step='1' placeholder='0' class='skirting-adjust-qty integer' data-default-value='1' />
+                                            </td>
+
+                                            <td class='last-child'>
+                                                <input name='skirting-adjust-length' class='skirting-adjust-length decimal pos-neg' type='number' min='0' step='any' />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+
+                            </div>
+                        </div>
+
+                        <div class='input-group windows-group'>
+
+                            <div class='group-label'>Windows</div>
+                            <div class='input-block'>
+
+                                <div class='left'>
+                                    <div class='dropdown' data-dropdown-id='window-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='window-qty' class='window-qty form-control integer' type='number' step='1' min='0' data-default-value='1'>
+                                            </td>
+                                            <td class='positive-negative-fake-cell'></td>
+                                            <td class='default-value'>
+                                                <input name='window-width' class='window-width form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                            <td class='default-value last-child'>
+                                                <input name='window-height' class='window-height form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+                            </div>
+                        </div>
+
+                        <div class='input-group radiators-group'>
+
+                            <div class='group-label'>Radiators</div>
+                            <div class='input-block group'>
+
+                                <div class='left'>
+                                    <div class="dropdown" data-dropdown-id='radiator-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='radiator-qty' class='radiator-qty form-control integer' type='number' step='1' min='0' data-default-value='1'>
+                                            </td>
+                                            <td class='positive-negative-fake-cell'></td>
+                                            <td class='default-value'>
+                                                <input name='radiator-width' class='radiator-width form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                            <td class='default-value last-child'>
+                                                <input name='radiator-height' class='radiator-height form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+                            </div>
+                        </div>
+
+                        <div class='input-group general-surface-group'>
+                            <div class='group-label'>General Surface</div>
+                            <div class='input-block group'>
+
+                                <div class='left'>
+                                    <div class='dropdown' data-dropdown-id='general-surface-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='general-surface-qty' class='general-surface-qty form-control integer' type='number' step='1' min='0' data-default-value='1'>
+                                            </td>
+                                            <td class='positive-negative-fake-cell'></td>
+                                            <td>
+                                                <input name='general-surface-width' class='general-surface-width form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                            <td class='last-child'>
+                                                <input name='general-surface-height' class='general-surface-height form-control decimal' type='number' step='any' min='0'>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+
+                            </div>
+                        </div>
+
+                        <div class='input-group isolated-surface-group'>
+
+                            <div class='group-label'>Isolated Surface</div>
+                            <div class='input-block group'>
+
+                                <div class='left'>
+                                    <div class='dropdown' data-dropdown-id='isolated-surface-paint-key'></div>
+                                </div>
+
+                                <div class='right'>
+                                    <table class='input-pill'>
+                                        <tr>
+                                            <td>
+                                                <input name='isolated-surface-qty' class='isolated-surface-qty form-control integer' type='number' step='1' min='0' data-default-value='1'>
+                                            </td>
+                                            <td class='positive-negative-fake-cell'></td>
+                                            <td class='last-child'>
+                                                <input class='form-control isolated-surface-length decimal' name='isolated-surface-length' type='number' step='any' min='0' />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class='button-box'></div>
+
+                            </div>
+                        </div>
+
+                        <div class='page-bottom-buttons'>
+                            <button type='button' id='btn-calculate' class='btn-calculate-room'>Calculate</button>
+                            <button type='button' class='btn-save-room'>Save</button>
+                            <button type='button' class='btn-delete-room'>Delete</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class='loadingDivOuter'></div>
+    <div class='dialog-background'></div>
+    <div class='dialog'></div>
+
+    <div id='view-components'>
+        <div class="caro-nav-btn caro-nav-next template">Next</div>
+        <div class="caro-nav-btn caro-nav-prev template">Prev</div>
+        <div class='loadingDivOuter template'>
+            <span>LOADING</span>
+            <div class='loadingDiv'>
+                <img src='/static/loading.gif' alt='loading' />
+            </div>
+        </div>
+        <div class='dialog-background template'></div>
+        <div class='dialog template'>
+            <h2 class='dialog-title'>Dialog Title</h2>
+            <h3 class='dialog-message'>Dialog Message</h3>
+            <button type='button' class='btn-dialog-confirm'>Confirm</button>
+            <button type='button' class='btn-dialog-cancel'>Cancel</button>
+        </div>
+        <div id='btn-pos-neg'>±</div>
+        <button type='button' class='btn-add-row template'>
+            <svg width='30' height='30'>
+                <circle tagname='circle' cx='15' cy='15' r='15' fill='blue'></circle>
+                <polygon tagname='polygon' points='12,6 18,6 18,12 24,12 24,18 18,18 18,24 12,24 12,18 12,18 6,18 6,12 12,12' fill='white'></polygon>
+            </svg>
+        </button>
+        <button type='button' class='btn-add-spec-item template'>
+            <svg width='30' height='30'>
+                <circle tagname='circle' cx='15' cy='15' r='15' fill='blue'></circle>
+                <polygon tagname='polygon' points="12,6 18,6 18,12 24,12 24,18 18,18 18,24 12,24 12,18 12,18 6,18 6,12 12,12" fill='white'></polygon>
+            </svg>
+        </button>
+        <button type='button' class='btn-remove-row template'>
+            <svg width='30' height='30'>
+                <circle tagname='circle' cx='15' cy='15' r='15' fill='red'></circle>
+                <polygon tagname='polygon' points='6,12 24,12 24,18 6,18 6,12' fill='white'></polygon>
+            </svg>
+        </button>
+        <button type='button' class='btn-reorder-item-up template'>
+            <svg width='30' height='30'>
+                <circle tagname='circle' cx='15' cy='15' r='15' fill='black'></circle>
+                <polygon tagname='polygon' points='15,7 23,20 7,20' fill='white'></polygon>
+            </svg>
+        </button>
+        <button type='button' class='btn-reorder-item-down template'>
+            <svg width='30' height='30'>
+                <circle tagname='circle' cx='15' cy='15' r='15' fill='black'></circle>
+                <polygon tagname='polygon' points='15,23 23,10 7,10' fill='white'></polygon>
+            </svg>
+        </button>
+        <button type='button' class='btn-add-room template'>
+            <svg width='30' height='30'>
+                <circle tagname='circle' cx='15' cy='15' r='15' fill='grey'></circle>
+                <polygon tagname='polygon' points='12,6 18,6 18,12 24,12 24,18 18,18 18,24 12,24 12,18 12,18 6,18 6,12 12,12' fill='white'></polygon>
+            </svg>
+        </button>
+        <div class='button-box template'>
+            <button type='button' class='btn-add-row'></button>
+            <button type='button' class='btn-remove-row'></button>
+        </div>
+        <div class='dropdown template'>
+            <button class='dropdown-btn' type='button'>
+                <span class='dropdown-text'>Select...</span>
+                <input type='hidden' class='dropdown-value' value='' />
+            </button>
+            <ul class='dropdown-menu' role='menu'>
+                <li role='presentation'></li>
+            </ul>
+        </div>
+    </div>
+
+    <div id='model-data'>
+        <div id='model-projects'>{{ projects|safe }}</div>
+        <div id='model-paints'>{{ paints|safe }}</div>
+        <div id='model-rooms'>{{ rooms|safe }}</div>
+        <div id='model-default-room'>{{ default_room|safe }}</div>
+    </div>
+
+</body>
+
+<script src="/static/common.js"></script>
+<script src="/static/app.js"></script>
+</html>
