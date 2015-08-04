@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace PaintSurvey.Models
 {
     public class DefaultRoom
     {
+        [Key]
         public int key { get; set; }
         public string name { get; set; }
         public float roomLength { get; set; }
