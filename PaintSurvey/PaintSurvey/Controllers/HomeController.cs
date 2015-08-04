@@ -15,10 +15,6 @@ namespace PaintSurvey.Controllers
         private PaintSurveyContext db = new PaintSurveyContext();
         public ActionResult Index()
         {
-            //Test add project
-            db.Projects.Add(new Project { title = "NEW2", username = "SOME USER2", dateCreated = DateTime.Now });
-            db.SaveChanges();
-
             var serializer = new JavaScriptSerializer();
             var serializedResult = serializer.Serialize(db.Paints.ToList());
             ViewBag.Message = db.Paints.ToList().Count();
